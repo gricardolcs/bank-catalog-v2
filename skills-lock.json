@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "c4-to-eventcatalog": {
+      "source": "event-catalog/skills",
+      "sourceType": "github",
+      "skillPath": "skills/c4-to-eventcatalog/SKILL.md",
+      "computedHash": "1331360c8b84b8c180950baef051945a67dc0ae5c0cc106861711d1041177f4d"
+    },
+    "catalog-documentation-creator": {
+      "source": "event-catalog/skills",
+      "sourceType": "github",
+      "skillPath": "skills/catalog-documentation-creator/SKILL.md",
+      "computedHash": "5bb76f0092bf52036565ced4414d94be472aec7c6880f70ea0f20977dd8254ff"
+    },
+    "code-to-catalog": {
+      "source": "event-catalog/skills",
+      "sourceType": "github",
+      "skillPath": "skills/code-to-catalog/SKILL.md",
+      "computedHash": "e22f4543afc7177994aadb0fe1c3b27bbadf4b20a1cb847c4913da630a296978"
+    },
+    "custom-pages-and-apis": {
+      "source": "event-catalog/skills",
+      "sourceType": "github",
+      "skillPath": "skills/custom-pages-and-apis/SKILL.md",
+      "computedHash": "47abf3dbbb50495cad42f4bb37f83f4e3192c2546a8aa67e8bec296a86ffe9ad"
+    },
+    "flow-wizard": {
+      "source": "event-catalog/skills",
+      "sourceType": "github",
+      "skillPath": "skills/flow-wizard/SKILL.md",
+      "computedHash": "39e8af9f2426f0ac17d7063bdbfa1b52dc37645368cf16d0ecbc341c26299145"
+    }
+  }
+}
