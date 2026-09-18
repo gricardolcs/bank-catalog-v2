@@ -1,0 +1,26 @@
+---
+id: tarjetas
+name: Tarjetas
+version: 1.0.0
+summary: Dominio centralizado encargado de la gestión, tokenización, seguridad y procesamiento técnico de tarjetas de crédito y débito de la plataforma.
+owners:
+  - core-payments-team
+---
+
+### 🎯 Propósito del Dominio
+
+El dominio de `Tarjetas` actúa como un contexto acotado (Bounded Context) exclusivo para el manejo de instrumentos financieros de pago de tipo plástico. Su objetivo principal es aislar las reglas técnicas y de cumplimiento regulatorio (como **PCI-DSS**) del resto de la organización.
+
+Cualquier servicio o entidad fuera de este dominio no tiene acceso directo a las redes de las franquicias financieras, obligando a consumir las interfaces expuestas de manera asíncrona.
+
+#### Componentes Protegidos del Dominio:
+* **Entidades Propias:** `Visa Card` y `Mastercard Card`.
+* **Servicios Core:** `Credit Cards Processor Service`.
+
+### 🔍 Filtrar por Franquicia Técnica
+
+Puedes explorar los componentes del catálogo filtrando directamente por las palabras clave en la barra de búsqueda superior o haciendo clic en las etiquetas individuales de cada componente:
+
+* 🔹 **Buscar "Visa":** Filtrará la entidad `Visa Card`, el evento de solicitud y los componentes de soporte de VTS.
+* 🔸 **Buscar "Mastercard":** Filtrará la entidad `Mastercard Card`, sus eventos y la configuración de criptogramas de MDES.
+

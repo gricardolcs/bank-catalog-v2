@@ -1,0 +1,43 @@
+---
+id: visa-transaction-requested
+name: MastercardTransactionRequested
+version: 1.0.0
+summary: Evento publicado cuando se inicia una solicitud de cobro utilizando una tarjeta Mastercard.
+tags:
+  - Mastercard
+  - tarjetas
+owners:
+  - checkout-team
+associatedIds:
+  - Mastercard Card
+---
+
+### 📑 Detalles del Evento
+
+Este evento es capturado por el `Credit Cards Processor Service` para iniciar el procesamiento asíncrono con los canales de clearing de Banknet mediante criptogramas dinámicos de comercio electrónico.
+
+#### Esquema del Payload (JSON Schema)
+
+```json
+{
+  "\$schema": "http://json-schema.org",
+  "title": "MastercardTransactionRequested",
+  "type": "object",
+  "properties": {
+    "transaction_id": { "type": "string", "format": "uuid" },
+    "amount": { "type": "number", "minimum": 0 },
+    "currency": { "type": "string", "enum": ["USD", "EUR", "MXN", "ARS"] },
+    "payment_data": {
+      "type": "object",
+      "properties": {
+        "mdes_token_unique_reference": { "type": "string" },
+        "token_requestor_id": { "type": "string" },
+        "card_bin": { "type": "string", "pattern": "^[0-9]{6,8}\$" },
+        "card_last_four": { "type": "string", "pattern": "^[0-9]{4}\$" }
+      },
+      "required": ["mdes_token_unique_reference", "token_requestor_id", "card_bin", "card_last_four"]
+    }
+  },
+  "required": ["transaction_id", "amount", "currency", "payment_data"]
+}
+```

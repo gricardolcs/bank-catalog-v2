@@ -1,0 +1,23 @@
+---
+id: payment-failed
+name: PaymentFailed
+version: 1.0.0
+summary: Emitido cuando la entidad emisora rechaza el cobro.
+owners:
+  - equipo-fintech
+producers:
+  - servicio-pagos
+consumers: []
+badges:
+  - content: 'Broker:Kafka'
+    backgroundColor: blue
+    textColor: blue
+    icon: BoltIcon
+schemaPath: schema.json
+---
+
+## Overview
+
+`PaymentFailed` es publicado por [[service|servicio-pagos]] cuando el cobro es rechazado.
+
+<NodeGraph />

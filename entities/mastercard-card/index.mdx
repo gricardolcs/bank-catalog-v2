@@ -1,0 +1,21 @@
+---
+id: mastercard-card
+name: Mastercard Card
+version: 1.0.0
+domain: Tarjetas
+summary: Entidad que representa un instrumento de pago tokenizado bajo las normativas de la red Banknet de Mastercard.
+tags:
+  - Mastercard
+  - tarjetas
+owners:
+  - core-payments-team
+---
+
+### 💳 Descripción Técnica de la Entidad
+
+La entidad `Mastercard Card` gestiona las identidades de pago correspondientes a la red Mastercard. Su ciclo de vida técnico está ligado a **MDES (Mastercard Digital Enablement Service)**, asegurando que cada transacción viaje cifrada con criptogramas dinámicos de e-commerce.
+
+#### Atributos Clave:
+* `mdes_token_unique_reference` *(String)*: Identificador único global del token emitido por la plataforma MDES.
+* `token_requestor_id` *(String)*: ID de comercio registrado ante Mastercard necesario para procesar cobros recurrentes.
+* `card_last_four` *(String)*: Últimos 4 dígitos para enmascaramiento visual.

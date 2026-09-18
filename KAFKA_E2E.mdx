@@ -1,0 +1,57 @@
+# Kafka end-to-end
+
+## Levantar Kafka local
+
+```powershell
+npm run kafka:up
+```
+
+## Crear los topics
+
+```powershell
+npm run kafka:init
+```
+
+## Levantar el consumidor principal
+
+En una terminal:
+
+```powershell
+npm run kafka:servicio-pagos
+```
+
+## Levantar el consumidor de resultados
+
+En otra terminal:
+
+```powershell
+npm run kafka:resultados
+```
+
+## Probar punta a punta
+
+Pago aprobado:
+
+```powershell
+npm run kafka:send:ok
+```
+
+Pago rechazado:
+
+```powershell
+npm run kafka:send:fail
+```
+
+## Flujo
+
+1. `producer-procesar-pago.js` publica el comando en `payments.card.process`.
+2. `consumer-servicio-pagos.js` consume ese comando.
+3. Si `approve !== false`, publica `PaymentProcessed` en `payments.card.processed`.
+4. Si `approve === false`, publica `PaymentFailed` en `payments.card.failed`.
+5. `consumer-resultados.js` muestra el evento final recibido.
+
+## Bajar Kafka
+
+```powershell
+npm run kafka:down
+```

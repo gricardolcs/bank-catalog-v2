@@ -56,9 +56,7 @@ npx skills add event-catalog/skills
 - [Add events, commands, and queries](https://www.eventcatalog.dev/docs/development/guides/messages/adding-messages)
 - [Use the EventCatalog Editor](https://www.eventcatalog.dev/docs/editor/overview)
 - [Generate from integrations](https://www.eventcatalog.dev/integrations)
-- [Manage your catalog with the SDK](https://www.eventcatalog.dev/docs/development/sdk)
-- [Join the community](https://discord.gg/3rjaZMmrAm)
+ 
 
 ## Found a Problem?
-
-Open an issue on [GitHub](https://github.com/event-catalog/eventcatalog/issues).
+ 

@@ -1,0 +1,23 @@
+---
+id: payment-processed
+name: PaymentProcessed
+version: 1.0.0
+summary: Notifica que un pago con tarjeta fue completado exitosamente.
+owners:
+  - equipo-fintech
+producers:
+  - servicio-pagos
+consumers: []
+badges:
+  - content: 'Broker:Kafka'
+    backgroundColor: blue
+    textColor: blue
+    icon: BoltIcon
+schemaPath: schema.json
+---
+
+## Overview
+
+`PaymentProcessed` es publicado por [[service|servicio-pagos]] cuando el pago fue aprobado.
+
+<NodeGraph />

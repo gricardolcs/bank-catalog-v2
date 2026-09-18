@@ -1,0 +1,25 @@
+---
+id: pagos
+name: Pagos
+version: 1.0.0
+summary: Dominio de pagos, cobros, rechazos, fraude y reembolsos.
+owners:
+  - equipo-fintech
+domain: Pagos
+systems:
+  - id: payment-processing-system
+    version: 1.0.0
+  - id: stripe
+    version: 1.0.0
+  - id: fraud-detection
+    version: 1.0.0
+services:
+  - id: servicio-pagos
+    version: 1.0.0
+---
+
+## Overview
+
+`Pagos` concentra el procesamiento de cobros, el pedido de cargos a procesadores externos, la recepción de rechazos o aprobaciones y los controles antifraude.
+
+<NodeGraph />

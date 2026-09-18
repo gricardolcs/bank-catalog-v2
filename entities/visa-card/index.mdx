@@ -1,0 +1,22 @@
+---
+id: visa-card
+name: Visa Card
+version: 1.0.0
+domain: Tarjetas
+summary: Entidad que representa un instrumento de pago tokenizado bajo las normativas y la red global de Visa (VisaNet).
+tags:
+  - Visa
+  - tarjetas
+owners:
+  - core-payments-team
+---
+
+### 💳 Descripción Técnica de la Entidad
+
+La entidad `Visa Card` encapsula el ciclo de vida de las tarjetas Visa de la plataforma. Por motivos de cumplimiento **PCI-DSS Level 1**, no almacena el PAN en texto plano, sino que hace referencia al `visa_token_id` provisto por el **Visa Token Service (VTS)**.
+
+#### Atributos Clave:
+* `visa_token_id` *(String)*: El token irreversible que reemplaza los datos reales de la tarjeta.
+* `card_bin` *(String)*: Primeros 6-8 dígitos para identificar al banco emisor (ej. Santander, BBVA) y subtipo de tarjeta (Classic, Infinite).
+* `card_last_four` *(String)*: Últimos 4 dígitos expuestos para visualización del cliente.
+

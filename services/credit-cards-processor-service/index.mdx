@@ -1,0 +1,59 @@
+---
+id: credit-cards-processor-service
+name: Credit Cards Processor Service
+version: 1.0.0
+domain: tarjetas
+summary: Servicio unificado de backend encargado de la orquestación, tokenización y ruteo de transacciones financieras hacia las redes de Visa y Mastercard.
+tags:
+  - Visa
+  - Mastercard
+  - tarjetas
+owners:
+  - core-payments-team
+  - finance-architecture
+publishes:
+  - VisaTransactionRequested
+  - MastercardTransactionRequested
+consumes:
+  - VisaTransactionApproved
+  - VisaTransactionDeclined
+  - MastercardTransactionApproved
+  - MastercardTransactionDeclined
+---
+
+<Flex >
+  <Widget title="Franquicias" value="Visa & Mastercard" />
+  <Widget title="Cumplimiento" value="PCI-DSS Level 1" />
+  <Widget title="Protocolo de Red" value="ISO 8583 Dual Variant" />
+</Flex>
+
+### 📝 Descripción del Servicio
+
+El `Credit Cards Processor Service` centraliza el ciclo de vida de los pagos con tarjeta de crédito de la plataforma. Actúa como una capa de abstracción para el resto del sistema, aislando la complejidad técnica y las normativas específicas impuestas por cada marca de tarjeta.
+
+Aunque expone interfaces unificadas hacia el Checkout, internamente ejecuta bifurcaciones arquitectónicas estrictas según el BIN de la tarjeta para comunicarse de manera dedicada con los servicios de **Visa** y **Mastercard**.
+
+---
+
+### 🗺️ Arquitectura de Ruteo Interno
+
+#### 💳 Segmento 1: Flujo Tecnológico de Visa
+Cuando el servicio identifica una tarjeta Visa (BIN iniciado en 4), delega el procesamiento al módulo especializado en **VisaNet (VNET)**.
+* **Tokenización Nativa:** Se integra con el *Visa Token Service (VTS)* mediante el atributo `visa_token_id`.
+* **Eventos Relacionados:** Publica `VisaTransactionRequested` y reacciona de forma asíncrona ante `VisaTransactionApproved` o `VisaTransactionDeclined`.
+* **Entidad de Dominio Vinculada:** Modifica y consulta el estado de la entidad **Visa Card**.
+
+#### 💳 Segmento 2: Flujo Tecnológico de Mastercard
+Para tarjetas Mastercard (BINs de las series 2 y 5), el tráfico se redirige hacia los canales de clearing de **Banknet**.
+* **Tokenización Nativa:** Invoca a *MDES (Mastercard Digital Enablement Service)*, generando criptogramas dinámicos de e-commerce.
+* **Eventos Relacionados:** Publica `MastercardTransactionRequested` y reacciona ante `MastercardTransactionApproved` o `MastercardTransactionDeclined`.
+* **Entidad de Dominio Vinculada:** Modifica y consulta el estado de la entidad **Mastercard Card**.
+
+---
+
+### 📊 Monitoreo y Mantenimiento de Canales
+
+Este servicio expone métricas diferenciadas por marca para identificar degradaciones de servicio específicas de una red sin afectar a la otra.
+
+* **Métricas de Performance:** [Grafana - Dashboard de Tarjetas](https://tuempresa.com)
+* **Alertas Críticas:** Canal `#alerts-payments-gateway` (Slack).

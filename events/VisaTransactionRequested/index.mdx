@@ -1,0 +1,42 @@
+---
+id: visa-transaction-requested
+name: VisaTransactionRequested
+version: 1.0.0
+summary: Evento publicado cuando se inicia una solicitud de cobro utilizando una tarjeta Visa.
+tags:
+  - Visa
+  - tarjetas
+owners:
+  - checkout-team
+associatedIds:
+  - visa-card
+---
+
+### 📑 Detalles del Evento
+
+Este evento es capturado por el `Credit Cards Processor Service` para empaquetar un mensaje ISO 8583 y enviarlo hacia los adquirentes de VisaNet.
+
+#### Esquema del Payload (JSON Schema)
+
+```json
+{
+  "\$schema": "http://json-schema.org",
+  "title": "VisaTransactionRequested",
+  "type": "object",
+  "properties": {
+    "transaction_id": { "type": "string", "format": "uuid" },
+    "amount": { "type": "number", "minimum": 0 },
+    "currency": { "type": "string", "enum": ["USD", "EUR", "MXN", "ARS"] },
+    "payment_data": {
+      "type": "object",
+      "properties": {
+        "visa_token_id": { "type": "string" },
+        "card_bin": { "type": "string", "pattern": "^[0-9]{6,8}\$" },
+        "card_last_four": { "type": "string", "pattern": "^[0-9]{4}\$" }
+      },
+      "required": ["visa_token_id", "card_bin", "card_last_four"]
+    }
+  },
+  "required": ["transaction_id", "amount", "currency", "payment_data"]
+}
+```

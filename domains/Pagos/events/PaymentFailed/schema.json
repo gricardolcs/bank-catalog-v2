@@ -1,0 +1,372 @@
+{
+    "_json": {
+        "type": "object",
+        "required": [
+            "transactionId",
+            "orderId",
+            "amount",
+            "currency",
+            "errorCode",
+            "card",
+            "failedAt"
+        ],
+        "properties": {
+            "transactionId": {
+                "type": "string",
+                "description": "ID intento de transacción.",
+                "x-parser-schema-id": "<anonymous-schema-1>"
+            },
+            "orderId": {
+                "type": "string",
+                "description": "ID del pedido afectado.",
+                "x-parser-schema-id": "<anonymous-schema-2>"
+            },
+            "amount": {
+                "type": "number",
+                "description": "Monto que se intentó cobrar.",
+                "x-parser-schema-id": "<anonymous-schema-3>"
+            },
+            "currency": {
+                "type": "string",
+                "description": "Código de la moneda.",
+                "x-parser-schema-id": "<anonymous-schema-4>"
+            },
+            "errorCode": {
+                "type": "string",
+                "enum": [
+                    "INSUFFICIENT_FUNDS",
+                    "EXPIRED_CARD",
+                    "SUSPECTED_FRAUD",
+                    "DECLINED_BY_ISSUER"
+                ],
+                "description": "Código estandarizado del error devuelto por el procesador.",
+                "x-parser-schema-id": "<anonymous-schema-5>"
+            },
+            "errorMessage": {
+                "type": "string",
+                "description": "Descripción legible del motivo del rechazo.",
+                "x-parser-schema-id": "<anonymous-schema-6>"
+            },
+            "card": {
+                "type": "object",
+                "properties": {
+                    "brand": {
+                        "type": "string",
+                        "x-parser-schema-id": "<anonymous-schema-8>"
+                    },
+                    "lastFourDigits": {
+                        "type": "string",
+                        "x-parser-schema-id": "<anonymous-schema-9>"
+                    }
+                },
+                "x-parser-schema-id": "<anonymous-schema-7>"
+            },
+            "failedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Fecha y hora en que se registró el rechazo.",
+                "x-parser-schema-id": "<anonymous-schema-10>"
+            }
+        },
+        "x-parser-schema-id": "PaymentFailedPayload"
+    },
+    "_meta": {
+        "pointer": "/channels/payments~1card~1failed/subscribe/message/payload",
+        "asyncapi": {
+            "source": "C:\\development\\a_event_catalog_v1\\bank-catalog-v2\\my-service-catalog\\asyncapi-specs\\payment-failed.yaml",
+            "input": "asyncapi: 2.6.0\r\nid: urn:com:tuempresa:servicios:pagos-fallidos\r\ninfo:\r\n  title: Card Payment Failure Notification API\r\n  version: 1.0.0\r\n  description: Eventos emitidos cuando ocurren rechazos en transacciones con tarjeta.\r\ndefaultContentType: application/json\r\n\r\nchannels:\r\n  payments/card/failed:\r\n    description: Canal para monitoreo y gestión de fallos en cobros con tarjeta.\r\n    subscribe:\r\n      operationId: onPaymentFailed\r\n      summary: Notifica el fallo o rechazo de una transacción.\r\n      message:\r\n        $ref: '#/components/messages/PaymentFailedMessage'\r\n\r\ncomponents:\r\n  messages:\r\n    PaymentFailedMessage:\r\n      name: PaymentFailed\r\n      title: Evento de Pago Fallido\r\n      summary: Emitido cuando la entidad emisora rechaza el cobro.\r\n      payload:\r\n        $ref: '#/components/schemas/PaymentFailedPayload'\r\n      examples:\r\n        - name: EjemploFondosInsuficientes\r\n          payload:\r\n            transactionId: \"tx_99812345b\"\r\n            orderId: \"ord_5522\"\r\n            amount: 500.00\r\n            currency: \"USD\"\r\n            errorCode: \"INSUFFICIENT_FUNDS\"\r\n            errorMessage: \"La tarjeta no dispone de fondos suficientes.\"\r\n            card:\r\n              brand: \"Mastercard\"\r\n              lastFourDigits: \"8812\"\r\n            failedAt: \"2026-03-16T14:32:10Z\"\r\n\r\n  schemas:\r\n    PaymentFailedPayload:\r\n      type: object\r\n      required:\r\n        - transactionId\r\n        - orderId\r\n        - amount\r\n        - currency\r\n        - errorCode\r\n        - card\r\n        - failedAt\r\n      properties:\r\n        transactionId:\r\n          type: string\r\n          description: ID intento de transacción.\r\n        orderId:\r\n          type: string\r\n          description: ID del pedido afectado.\r\n        amount:\r\n          type: number\r\n          description: Monto que se intentó cobrar.\r\n        currency:\r\n          type: string\r\n          description: Código de la moneda.\r\n        errorCode:\r\n          type: string\r\n          enum: [INSUFFICIENT_FUNDS, EXPIRED_CARD, SUSPECTED_FRAUD, DECLINED_BY_ISSUER]\r\n          description: Código estandarizado del error devuelto por el procesador.\r\n        errorMessage:\r\n          type: string\r\n          description: Descripción legible del motivo del rechazo.\r\n        card:\r\n          type: object\r\n          properties:\r\n            brand:\r\n              type: string\r\n            lastFourDigits:\r\n              type: string\r\n        failedAt:\r\n          type: string\r\n          format: date-time\r\n          description: Fecha y hora en que se registró el rechazo.",
+            "parsed": {
+                "asyncapi": "2.6.0",
+                "id": "urn:com:tuempresa:servicios:pagos-fallidos",
+                "info": {
+                    "title": "Card Payment Failure Notification API",
+                    "version": "1.0.0",
+                    "description": "Eventos emitidos cuando ocurren rechazos en transacciones con tarjeta."
+                },
+                "defaultContentType": "application/json",
+                "channels": {
+                    "payments/card/failed": {
+                        "description": "Canal para monitoreo y gestión de fallos en cobros con tarjeta.",
+                        "subscribe": {
+                            "operationId": "onPaymentFailed",
+                            "summary": "Notifica el fallo o rechazo de una transacción.",
+                            "message": {
+                                "name": "PaymentFailed",
+                                "title": "Evento de Pago Fallido",
+                                "summary": "Emitido cuando la entidad emisora rechaza el cobro.",
+                                "payload": {
+                                    "type": "object",
+                                    "required": [
+                                        "transactionId",
+                                        "orderId",
+                                        "amount",
+                                        "currency",
+                                        "errorCode",
+                                        "card",
+                                        "failedAt"
+                                    ],
+                                    "properties": {
+                                        "transactionId": {
+                                            "type": "string",
+                                            "description": "ID intento de transacción.",
+                                            "x-parser-schema-id": "<anonymous-schema-1>"
+                                        },
+                                        "orderId": {
+                                            "type": "string",
+                                            "description": "ID del pedido afectado.",
+                                            "x-parser-schema-id": "<anonymous-schema-2>"
+                                        },
+                                        "amount": {
+                                            "type": "number",
+                                            "description": "Monto que se intentó cobrar.",
+                                            "x-parser-schema-id": "<anonymous-schema-3>"
+                                        },
+                                        "currency": {
+                                            "type": "string",
+                                            "description": "Código de la moneda.",
+                                            "x-parser-schema-id": "<anonymous-schema-4>"
+                                        },
+                                        "errorCode": {
+                                            "type": "string",
+                                            "enum": [
+                                                "INSUFFICIENT_FUNDS",
+                                                "EXPIRED_CARD",
+                                                "SUSPECTED_FRAUD",
+                                                "DECLINED_BY_ISSUER"
+                                            ],
+                                            "description": "Código estandarizado del error devuelto por el procesador.",
+                                            "x-parser-schema-id": "<anonymous-schema-5>"
+                                        },
+                                        "errorMessage": {
+                                            "type": "string",
+                                            "description": "Descripción legible del motivo del rechazo.",
+                                            "x-parser-schema-id": "<anonymous-schema-6>"
+                                        },
+                                        "card": {
+                                            "type": "object",
+                                            "properties": {
+                                                "brand": {
+                                                    "type": "string",
+                                                    "x-parser-schema-id": "<anonymous-schema-8>"
+                                                },
+                                                "lastFourDigits": {
+                                                    "type": "string",
+                                                    "x-parser-schema-id": "<anonymous-schema-9>"
+                                                }
+                                            },
+                                            "x-parser-schema-id": "<anonymous-schema-7>"
+                                        },
+                                        "failedAt": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "description": "Fecha y hora en que se registró el rechazo.",
+                                            "x-parser-schema-id": "<anonymous-schema-10>"
+                                        }
+                                    },
+                                    "x-parser-schema-id": "PaymentFailedPayload"
+                                },
+                                "examples": [
+                                    {
+                                        "name": "EjemploFondosInsuficientes",
+                                        "payload": {
+                                            "transactionId": "tx_99812345b",
+                                            "orderId": "ord_5522",
+                                            "amount": 500,
+                                            "currency": "USD",
+                                            "errorCode": "INSUFFICIENT_FUNDS",
+                                            "errorMessage": "La tarjeta no dispone de fondos suficientes.",
+                                            "card": {
+                                                "brand": "Mastercard",
+                                                "lastFourDigits": "8812"
+                                            },
+                                            "failedAt": "2026-03-16T14:32:10Z"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "components": {
+                    "messages": {
+                        "PaymentFailedMessage": {
+                            "name": "PaymentFailed",
+                            "title": "Evento de Pago Fallido",
+                            "summary": "Emitido cuando la entidad emisora rechaza el cobro.",
+                            "payload": {
+                                "type": "object",
+                                "required": [
+                                    "transactionId",
+                                    "orderId",
+                                    "amount",
+                                    "currency",
+                                    "errorCode",
+                                    "card",
+                                    "failedAt"
+                                ],
+                                "properties": {
+                                    "transactionId": {
+                                        "type": "string",
+                                        "description": "ID intento de transacción.",
+                                        "x-parser-schema-id": "<anonymous-schema-1>"
+                                    },
+                                    "orderId": {
+                                        "type": "string",
+                                        "description": "ID del pedido afectado.",
+                                        "x-parser-schema-id": "<anonymous-schema-2>"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "description": "Monto que se intentó cobrar.",
+                                        "x-parser-schema-id": "<anonymous-schema-3>"
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "description": "Código de la moneda.",
+                                        "x-parser-schema-id": "<anonymous-schema-4>"
+                                    },
+                                    "errorCode": {
+                                        "type": "string",
+                                        "enum": [
+                                            "INSUFFICIENT_FUNDS",
+                                            "EXPIRED_CARD",
+                                            "SUSPECTED_FRAUD",
+                                            "DECLINED_BY_ISSUER"
+                                        ],
+                                        "description": "Código estandarizado del error devuelto por el procesador.",
+                                        "x-parser-schema-id": "<anonymous-schema-5>"
+                                    },
+                                    "errorMessage": {
+                                        "type": "string",
+                                        "description": "Descripción legible del motivo del rechazo.",
+                                        "x-parser-schema-id": "<anonymous-schema-6>"
+                                    },
+                                    "card": {
+                                        "type": "object",
+                                        "properties": {
+                                            "brand": {
+                                                "type": "string",
+                                                "x-parser-schema-id": "<anonymous-schema-8>"
+                                            },
+                                            "lastFourDigits": {
+                                                "type": "string",
+                                                "x-parser-schema-id": "<anonymous-schema-9>"
+                                            }
+                                        },
+                                        "x-parser-schema-id": "<anonymous-schema-7>"
+                                    },
+                                    "failedAt": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "Fecha y hora en que se registró el rechazo.",
+                                        "x-parser-schema-id": "<anonymous-schema-10>"
+                                    }
+                                },
+                                "x-parser-schema-id": "PaymentFailedPayload"
+                            },
+                            "examples": [
+                                {
+                                    "name": "EjemploFondosInsuficientes",
+                                    "payload": {
+                                        "transactionId": "tx_99812345b",
+                                        "orderId": "ord_5522",
+                                        "amount": 500,
+                                        "currency": "USD",
+                                        "errorCode": "INSUFFICIENT_FUNDS",
+                                        "errorMessage": "La tarjeta no dispone de fondos suficientes.",
+                                        "card": {
+                                            "brand": "Mastercard",
+                                            "lastFourDigits": "8812"
+                                        },
+                                        "failedAt": "2026-03-16T14:32:10Z"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "schemas": {
+                        "PaymentFailedPayload": {
+                            "type": "object",
+                            "required": [
+                                "transactionId",
+                                "orderId",
+                                "amount",
+                                "currency",
+                                "errorCode",
+                                "card",
+                                "failedAt"
+                            ],
+                            "properties": {
+                                "transactionId": {
+                                    "type": "string",
+                                    "description": "ID intento de transacción.",
+                                    "x-parser-schema-id": "<anonymous-schema-1>"
+                                },
+                                "orderId": {
+                                    "type": "string",
+                                    "description": "ID del pedido afectado.",
+                                    "x-parser-schema-id": "<anonymous-schema-2>"
+                                },
+                                "amount": {
+                                    "type": "number",
+                                    "description": "Monto que se intentó cobrar.",
+                                    "x-parser-schema-id": "<anonymous-schema-3>"
+                                },
+                                "currency": {
+                                    "type": "string",
+                                    "description": "Código de la moneda.",
+                                    "x-parser-schema-id": "<anonymous-schema-4>"
+                                },
+                                "errorCode": {
+                                    "type": "string",
+                                    "enum": [
+                                        "INSUFFICIENT_FUNDS",
+                                        "EXPIRED_CARD",
+                                        "SUSPECTED_FRAUD",
+                                        "DECLINED_BY_ISSUER"
+                                    ],
+                                    "description": "Código estandarizado del error devuelto por el procesador.",
+                                    "x-parser-schema-id": "<anonymous-schema-5>"
+                                },
+                                "errorMessage": {
+                                    "type": "string",
+                                    "description": "Descripción legible del motivo del rechazo.",
+                                    "x-parser-schema-id": "<anonymous-schema-6>"
+                                },
+                                "card": {
+                                    "type": "object",
+                                    "properties": {
+                                        "brand": {
+                                            "type": "string",
+                                            "x-parser-schema-id": "<anonymous-schema-8>"
+                                        },
+                                        "lastFourDigits": {
+                                            "type": "string",
+                                            "x-parser-schema-id": "<anonymous-schema-9>"
+                                        }
+                                    },
+                                    "x-parser-schema-id": "<anonymous-schema-7>"
+                                },
+                                "failedAt": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "description": "Fecha y hora en que se registró el rechazo.",
+                                    "x-parser-schema-id": "<anonymous-schema-10>"
+                                }
+                            },
+                            "x-parser-schema-id": "PaymentFailedPayload"
+                        }
+                    }
+                },
+                "x-parser-spec-parsed": true,
+                "x-parser-api-version": 3
+            },
+            "semver": {
+                "version": "2.6.0",
+                "major": 2,
+                "minor": 6,
+                "patch": 0
+            }
+        }
+    }
+}

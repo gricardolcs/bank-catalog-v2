@@ -1,0 +1,99 @@
+asyncapi: 2.6.0
+id: urn:com:tuempresa:servicios:pagos
+info:
+  title: Card Payment Service API
+  version: 1.0.0
+  description: Servicio encargado del procesamiento y notificación de pagos con tarjeta de crédito/débito.
+defaultContentType: application/json
+
+servers:
+  production:
+    url: kafka.tuempresa.com:9092
+    protocol: kafka
+    description: Broker principal de producción
+
+channels:
+  payments/card/processed:
+    description: Canal donde se publican las transacciones de tarjeta aprobadas.
+    subscribe:
+      operationId: onPaymentProcessed
+      summary: Notifica que un pago con tarjeta fue procesado exitosamente.
+      message:
+        $ref: '#/components/messages/PaymentProcessedMessage'
+
+components:
+  messages:
+    PaymentProcessedMessage:
+      name: PaymentProcessed
+      title: Evento de Pago Procesado
+      summary: Se emite cuando la pasarela aprueba el cobro en la tarjeta.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PaymentProcessedPayload'
+      examples:
+        - name: EjemploPagoExitoso
+          payload:
+            transactionId: "tx_99812345a"
+            orderId: "ord_5521"
+            amount: 149.99
+            currency: "USD"
+            status: "APPROVED"
+            card:
+              brand: "Visa"
+              lastFourDigits: "4242"
+              holderName: "Juan Pérez"
+            processedAt: "2026-03-16T14:30:00Z"
+
+  schemas:
+    PaymentProcessedPayload:
+      type: object
+      required:
+        - transactionId
+        - orderId
+        - amount
+        - currency
+        - status
+        - card
+        - processedAt
+      properties:
+        transactionId:
+          type: string
+          description: Identificador único de la transacción en la pasarela.
+        orderId:
+          type: string
+          description: ID de la orden o pedido asociado.
+        amount:
+          type: number
+          minimum: 0
+          description: Monto total cobrado.
+        currency:
+          type: string
+          example: "USD"
+          description: Código ISO de la moneda (USD, EUR, MXN, etc.).
+        status:
+          type: string
+          enum: [APPROVED]
+          description: Estado del procesamiento.
+        card:
+          type: object
+          required:
+            - brand
+            - lastFourDigits
+          properties:
+            brand:
+              type: string
+              example: "Visa"
+              description: Franquicia de la tarjeta (Visa, Mastercard, AMEX).
+            lastFourDigits:
+              type: string
+              maxLength: 4
+              minLength: 4
+              example: "4242"
+              description: Últimos 4 dígitos para referencia visual.
+            holderName:
+              type: string
+              description: Nombre del titular impreso en la tarjeta.
+        processedAt:
+          type: string
+          format: date-time
+          description: Fecha y hora UTC del cobro.

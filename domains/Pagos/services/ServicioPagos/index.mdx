@@ -1,0 +1,26 @@
+---
+id: servicio-pagos
+name: ServicioPagos
+version: 1.0.0
+summary: Microservicio encargado de procesar los cobros con tarjeta.
+owners:
+  - equipo-fintech
+receives:
+  - id: procesar-pago
+    version: 1.0.0
+sends:
+  - id: payment-processed
+    version: 1.0.0
+  - id: payment-failed
+    version: 1.0.0
+repository:
+  language: Node.js
+---
+
+## Arquitectura
+
+Este servicio consume el comando `ProcesarPago` y publica los eventos `PaymentProcessed` o `PaymentFailed` por Kafka.
+
+<NodeGraph />
+
+<MessageTable format="all" limit={8} />

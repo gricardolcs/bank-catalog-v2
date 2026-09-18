@@ -1,12 +1,17 @@
 /** @type {import('@eventcatalog/core/bin/eventcatalog.config').Config} */
+import path from 'node:path';
+
 export default {
-  title: 'Acme Inc',
+  title: 'ICBC Bank SA',
   tagline:
-    'This internal platform provides a comprehensive view of our event-driven architecture across all systems. Use this portal to discover existing domains, explore services and their dependencies, and understand the message contracts that connect our infrastructure',
-  organizationName: 'Acme Inc',
-  theme: 'sunset',
+    'ICBC Bank SA infrastructure - testing Event Catalog with AsyncAPI generator plugin',
+  organizationName: 'ICBC Bank SA',
+  theme: {
+    mode: 'dark',
+  },
   homepageLink: 'https://eventcatalog.dev/',
-  editUrl: 'https://github.com/boyney123/eventcatalog-demo/edit/master',
+  // Used to build the "Editar" links shown on /entidades and on each resource page.
+  editUrl: 'https://github.com/gricardolcs/bank-catalog-v2/edit/main',
   // Supports static or server. Static renders a static site, server renders a server side rendered site
   // large catalogs may benefit from server side rendering
   output: 'static',
@@ -18,7 +23,7 @@ export default {
   // Resource search is the default lightweight search. Change this to { type: 'indexed' }
   // to enable full-content search. Indexed search requires running a build to generate the index.
   search: {
-    type: 'resource',
+    type: 'indexed',
   },
   // Customize the navigation for your docs sidebar.
   // read more at https://eventcatalog.dev/docs/development/customization/customize-sidebars/documentation-sidebar
@@ -44,9 +49,9 @@ export default {
   },
   // Customize the logo, add your logo to public/ folder
   logo: {
-    alt: 'Acme Inc Logo',
+    alt: 'ICBC Bank SA Logo',
     src: '/logo.png',
-    text: 'Acme Inc',
+    text: 'ICBC Bank SA',
   },
   // This lets you copy markdown contents from EventCatalog to your clipboard
   // Including schemas for your events and services
@@ -55,4 +60,23 @@ export default {
   },
   // required random generated id used by eventcatalog
   cId: 'cbaf8b33-37b7-4fd9-91ec-b2d0d68cbc04',
+
+  generators: [
+    [
+      '@eventcatalog/plugin-doc-generator-asyncapi',
+      {
+        // Ruta al archivo AsyncAPI
+        pathToSpec: path.join(process.cwd(), 'asyncapi-specs', 'payment-processed.yaml'),
+        // Opcional: Asignar a un dominio específico en EventCatalog
+        domainName: 'ReservaDeVuelos',
+      },
+    ],
+    [
+      '@eventcatalog/plugin-doc-generator-asyncapi',
+      {
+        pathToSpec: path.join(process.cwd(), 'asyncapi-specs/payment-failed.yaml'),
+        domainName: 'Pagos',
+      },
+    ],
+  ],
 };

@@ -1,0 +1,79 @@
+diff --git a/node_modules/@eventcatalog/core/eventcatalog/src/components/Header.astro b/node_modules/@eventcatalog/core/eventcatalog/src/components/Header.astro
+index eb0519b..3b2698a 100644
+--- a/node_modules/@eventcatalog/core/eventcatalog/src/components/Header.astro
++++ b/node_modules/@eventcatalog/core/eventcatalog/src/components/Header.astro
+@@ -104,6 +104,12 @@ const repositoryUrl = catalog?.repositoryUrl || 'https://github.com/event-catalo
+                     Sign In
+                   </button>
+                 )}
++                <a
++                  href={buildUrl('/entidades')}
++                  class="text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 whitespace-nowrap"
++                >
++                  Entidad
++                </a>
+                 {showEventCatalogBranding() && (
+                   <ul class="flex space-x-8">
+                     <li>
+diff --git a/node_modules/@eventcatalog/core/eventcatalog/src/pages/entidades/index.astro b/node_modules/@eventcatalog/core/eventcatalog/src/pages/entidades/index.astro
+new file mode 100644
+index 0000000..6a373d9
+--- /dev/null
++++ b/node_modules/@eventcatalog/core/eventcatalog/src/pages/entidades/index.astro
+@@ -0,0 +1,56 @@
++---
++import VerticalSideBarLayout from '@layouts/VerticalSideBarLayout.astro';
++import { getEntities } from '@utils/entities';
++import { buildUrl, buildEditUrlForResource } from '@utils/url-builder';
++import config from '@config';
++
++const entities = await getEntities({ getAllVersions: false });
++const editUrl = config.editUrl;
++---
++
++<VerticalSideBarLayout title="Entidades" description="Listado de entidades del catálogo">
++  <main class="flex sm:px-8 docs-layout h-full">
++    <div class="w-full lg:mr-2 pr-8 overflow-y-auto py-8">
++      <div class="prose prose-md w-full !max-w-none">
++        <h1>Entidades</h1>
++        <p>Listado de todas las entidades documentadas en el catálogo.</p>
++      </div>
++
++      {
++        entities.length === 0 && (
++          <p class="text-gray-500 mt-4">Todavía no hay entidades documentadas.</p>
++        )
++      }
++
++      <ul class="mt-6 divide-y divide-gray-200 not-prose">
++        {
++          entities.map((entity) => {
++            const detailUrl = buildUrl(`/docs/entities/${entity.data.id}/${entity.data.version}`);
++            const entityEditUrl = editUrl && entity.filePath ? buildEditUrlForResource(editUrl, entity.filePath) : null;
++
++            return (
++              <li class="py-4 flex items-center justify-between gap-4">
++                <div>
++                  <a href={detailUrl} class="text-lg font-medium text-purple-700 hover:underline">
++                    {entity.data.name || entity.data.id}
++                  </a>
++                  {entity.data.summary && <p class="text-sm text-gray-500 mt-1">{entity.data.summary}</p>}
++                </div>
++                {entityEditUrl && (
++                  <a
++                    href={entityEditUrl}
++                    target="_blank"
++                    rel="noopener noreferrer"
++                    class="shrink-0 text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center gap-1"
++                  >
++                    ✏️ Editar
++                  </a>
++                )}
++              </li>
++            );
++          })
++        }
++      </ul>
++    </div>
++  </main>
++</VerticalSideBarLayout>

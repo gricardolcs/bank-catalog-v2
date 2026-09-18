@@ -1,0 +1,81 @@
+asyncapi: 2.6.0
+id: urn:com:tuempresa:servicios:pagos-fallidos
+info:
+  title: Card Payment Failure Notification API
+  version: 1.0.0
+  description: Eventos emitidos cuando ocurren rechazos en transacciones con tarjeta.
+defaultContentType: application/json
+
+channels:
+  payments/card/failed:
+    description: Canal para monitoreo y gestión de fallos en cobros con tarjeta.
+    subscribe:
+      operationId: onPaymentFailed
+      summary: Notifica el fallo o rechazo de una transacción.
+      message:
+        $ref: '#/components/messages/PaymentFailedMessage'
+
+components:
+  messages:
+    PaymentFailedMessage:
+      name: PaymentFailed
+      title: Evento de Pago Fallido
+      summary: Emitido cuando la entidad emisora rechaza el cobro.
+      payload:
+        $ref: '#/components/schemas/PaymentFailedPayload'
+      examples:
+        - name: EjemploFondosInsuficientes
+          payload:
+            transactionId: "tx_99812345b"
+            orderId: "ord_5522"
+            amount: 500.00
+            currency: "USD"
+            errorCode: "INSUFFICIENT_FUNDS"
+            errorMessage: "La tarjeta no dispone de fondos suficientes."
+            card:
+              brand: "Mastercard"
+              lastFourDigits: "8812"
+            failedAt: "2026-03-16T14:32:10Z"
+
+  schemas:
+    PaymentFailedPayload:
+      type: object
+      required:
+        - transactionId
+        - orderId
+        - amount
+        - currency
+        - errorCode
+        - card
+        - failedAt
+      properties:
+        transactionId:
+          type: string
+          description: ID intento de transacción.
+        orderId:
+          type: string
+          description: ID del pedido afectado.
+        amount:
+          type: number
+          description: Monto que se intentó cobrar.
+        currency:
+          type: string
+          description: Código de la moneda.
+        errorCode:
+          type: string
+          enum: [INSUFFICIENT_FUNDS, EXPIRED_CARD, SUSPECTED_FRAUD, DECLINED_BY_ISSUER]
+          description: Código estandarizado del error devuelto por el procesador.
+        errorMessage:
+          type: string
+          description: Descripción legible del motivo del rechazo.
+        card:
+          type: object
+          properties:
+            brand:
+              type: string
+            lastFourDigits:
+              type: string
+        failedAt:
+          type: string
+          format: date-time
+          description: Fecha y hora en que se registró el rechazo.

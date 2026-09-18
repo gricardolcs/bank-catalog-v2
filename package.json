@@ -2,6 +2,7 @@
   "name": "my-service-catalog",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "eventcatalog dev",
     "editor": "npx @eventcatalog/editor@latest",
@@ -10,12 +11,28 @@
     "preview": "eventcatalog preview",
     "generate": "eventcatalog generate",
     "federate": "eventcatalog federate",
+    "kafka:up": "docker compose -f docker-compose.kafka.yml up -d",
+    "kafka:down": "docker compose -f docker-compose.kafka.yml down -v",
+    "kafka:init": "node kafka/admin.js",
+    "kafka:servicio-pagos": "node kafka/consumer-servicio-pagos.js",
+    "kafka:resultados": "node kafka/consumer-resultados.js",
+    "kafka:send:ok": "node kafka/producer-procesar-pago.js",
+    "kafka:send:fail": "node kafka/producer-procesar-pago.js fail",
+    "payment-service:start": "node payment-service/server.js",
     "export": "eventcatalog export",
     "lint": "eventcatalog-linter",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "patch-package"
   },
   "dependencies": {
-    "@eventcatalog/core": "4.10.14",
-    "@eventcatalog/linter": "1.1.19"
+    "@eventcatalog/core": "^2.42.10",
+    "@eventcatalog/generator-asyncapi": "^7.0.3",
+    "@eventcatalog/linter": "1.1.19",
+    "express": "^5.2.1",
+    "kafkajs": "^2.2.4"
+  },
+  "devDependencies": {
+    "@eventcatalog/plugin-doc-generator-asyncapi": "^0.4.0",
+    "patch-package": "^8.0.1"
   }
 }
